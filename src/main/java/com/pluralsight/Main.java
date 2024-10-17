@@ -160,25 +160,42 @@ public class Main {
 
     public static void getUserDepositInformation() {
         Scanner scanner = new Scanner(System.in);
+
+        // Prompting for date and time
+        System.out.print("Enter Date (YYYY-MM-DD): ");
+        String date = scanner.nextLine();
+
+        System.out.print("Enter Time (HH:MM:SS): ");
+        String time = scanner.nextLine();
+
+        // Prompting for deposit details
         System.out.print("Enter Deposit Description: ");
         String description = scanner.nextLine();
+
         System.out.print("Enter Vendor: ");
         String vendor = scanner.nextLine();
+
         System.out.print("Enter Amount: ");
         double amount = scanner.nextDouble();
-        System.out.println("Deposit recorded: " + description + ", " + vendor + ", $" + amount);
 
+        // Correctly concatenating strings
+        System.out.println("Deposit recorded: " + date + "," + time + "," + description + ", " + vendor + ", $" + amount);
     }
+
 
     public static void getUserPaymentInformation() {
         Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Date (YYYY-MM-DD): ");
+        String date = scanner.nextLine();
+        System.out.print("Enter Time (HH:MM:SS): ");
+        String time = scanner.nextLine();
         System.out.print("Enter Payment Description: ");
         String description = scanner.nextLine();
         System.out.print("Enter Vendor: ");
         String vendor = scanner.nextLine();
         System.out.print("Enter Amount : ");
         double amount = scanner.nextDouble();
-
+        System.out.println("Payment recorded: " + date + "," + time + "," + description + ", " + vendor + ", $" + amount);
 
         }
     }
