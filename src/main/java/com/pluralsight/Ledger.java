@@ -104,7 +104,7 @@ public class Ledger {
         LocalDate endOfLastYear = startOfLastYear.withDayOfYear(startOfLastYear.lengthOfYear());
         return filterTransactionsByDateRange(startOfLastYear, endOfLastYear);
     }
-    
+
     private List<Transaction> filterTransactionsByDateRange(LocalDate startDate, LocalDate endDate) {
         List<Transaction> filteredTransactions = new ArrayList<>();
 
