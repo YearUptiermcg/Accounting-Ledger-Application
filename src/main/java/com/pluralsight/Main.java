@@ -1,14 +1,20 @@
 package com.pluralsight;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    static Scanner scanner = new Scanner(System.in);
+    static Ledger ledger = new Ledger("transactions.csv");
+
     public static void main(String[] args) {
         HomeScreen();
     }
 
-    /* First Level Menu, exits to end program. */
     static void HomeScreen() {
-        Scanner scanner = new Scanner(System.in);
         char option;
 
         do {
@@ -35,97 +41,32 @@ public class Main {
                         break;
                     case 'X': // Exit
                         System.out.println("Exiting the application. Goodbye!");
-                        return; // Exits the loop and the method
+                        return;
                     default:
                         System.out.println("Invalid Character, please try again.");
                 }
             } catch (Exception e) {
-                System.out.println("Error!!! Try again!");
+                System.out.println("Error!!! Try again! " + e.getMessage());
+                scanner.next();
             }
         } while (true);
     }
 
     static void displayLedgerScreen() {
-        Scanner scanner = new Scanner(System.in);
-        char option;
         System.out.println("Displaying Ledger Screen...");
-        while (true) {
-            try {
-                System.out.println("Which previous transactions would you like to view?");
-                System.out.println("(A) - All");
-                System.out.println("(D) - Deposits");
-                System.out.println("(P) - Payments");
-                System.out.println("(R) - Reports");
-                System.out.println("(H) - Go to Home Screen");
-                System.out.print("Command: ");
-                option = scanner.next().toUpperCase().charAt(0);
-
-                switch (option) {
-                    case 'A':
-                        displayAll();
-                        break;
-                    case 'D':
-                        displayDeposits();
-                        break;
-                    case 'P':
-                        displayPayments();
-                        break;
-                    case 'R':
-                        displayReportScreen();
-                        break;
-                    case 'H':
-                        return; // Go back to the Home Screen
-                    default:
-                        System.out.println("Invalid Character, please try again.");
-                }
-            } catch (Exception e) {
-                System.out.println("Error!!! Try again!");
+        // Load and display transactions from the CSV file
+        List<Transaction> transactions = ledger.getTransactions();
+        if (transactions.isEmpty()) {
+            System.out.println("No transactions found.");
+        } else {
+            System.out.println("Transactions:");
+            for (Transaction transaction : transactions) {
+                System.out.println(transaction);
             }
         }
-    }
-
-    static void displayReportScreen() {
-        Scanner scanner = new Scanner(System.in);
-        int option;
-        System.out.println("Displaying Report Screen...");
-        while (true) {
-            try {
-                System.out.println("Which reports would you like to view?");
-                System.out.println("(1) - Month to Date");
-                System.out.println("(2) - Previous Month");
-                System.out.println("(3) - Year To Date");
-                System.out.println("(4) - Previous Year");
-                System.out.println("(5) - Search by Vendor");
-                System.out.println("(0) - Go back to Ledger Screen");
-                System.out.print("Command: ");
-                option = scanner.nextInt();
-
-                switch (option) {
-                    case 1:
-                        System.out.println("Displaying Month to Date Report...");
-                        break;
-                    case 2:
-                        System.out.println("Displaying Previous Month Report...");
-                        break;
-                    case 3:
-                        System.out.println("Displaying Year to Date Report...");
-                        break;
-                    case 4:
-                        System.out.println("Displaying Previous Year Report...");
-                        break;
-                    case 5:
-                        doSearch();
-                        break;
-                    case 0:
-                        return; // Go back to the Ledger Screen
-                    default:
-                        System.out.println("Invalid choice, please try again.");
-                }
-            } catch (Exception e) {
-                System.out.println("Error!!! Try again!");
-                scanner.next(); // Clear invalid input
-            }
-        }
+        // Returning to home screen after displaying
+        System.out.println("Press any key to go back to Home Screen...");
+        scanner.next(); // Wait for user input
     }
 
     static void displayDepositScreen() {
@@ -138,65 +79,49 @@ public class Main {
         getUserPaymentInformation();
     }
 
-    static void displayAll() {
-        System.out.println("Displaying All Transactions...");
-        // Logic to display all transactions will go here
-    }
-
-    static void displayDeposits() {
-        System.out.println("Displaying Only Deposits...");
-        // Logic to display only deposits will go here
-    }
-
-    static void displayPayments() {
-        System.out.println("Displaying Only Payments...");
-
-    }
-
-    static void doSearch() {
-        System.out.println("Performing Search by Vendor...");
-
-    }
-
     public static void getUserDepositInformation() {
-        Scanner scanner = new Scanner(System.in);
-
-        // Prompting for date and time
         System.out.print("Enter Date (YYYY-MM-DD): ");
-        String date = scanner.nextLine();
+        String date = scanner.next();
 
         System.out.print("Enter Time (HH:MM:SS): ");
-        String time = scanner.nextLine();
+        String time = scanner.next();
 
-        // Prompting for deposit details
         System.out.print("Enter Deposit Description: ");
-        String description = scanner.nextLine();
+        String description = scanner.next();
 
         System.out.print("Enter Vendor: ");
-        String vendor = scanner.nextLine();
+        String vendor = scanner.next();
 
         System.out.print("Enter Amount: ");
         double amount = scanner.nextDouble();
 
-        // Correctly concatenating strings
-        System.out.println("Deposit recorded: " + date + "," + time + "," + description + ", " + vendor + ", $" + amount);
-    }
+        // Create and add the deposit transaction to the ledger
+        Transaction deposit = new Transaction("Deposit", date, time, description, vendor, amount);
+        ledger.addTransaction(deposit);
 
+        System.out.println("Deposit recorded: " + deposit);
+    }
 
     public static void getUserPaymentInformation() {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Enter Date (YYYY-MM-DD): ");
-        String date = scanner.nextLine();
+        String date = scanner.next();
+
         System.out.print("Enter Time (HH:MM:SS): ");
-        String time = scanner.nextLine();
+        String time = scanner.next();
+
         System.out.print("Enter Payment Description: ");
-        String description = scanner.nextLine();
+        String description = scanner.next();
+
         System.out.print("Enter Vendor: ");
-        String vendor = scanner.nextLine();
-        System.out.print("Enter Amount : ");
+        String vendor = scanner.next();
+
+        System.out.print("Enter Amount: ");
         double amount = scanner.nextDouble();
-        System.out.println("Payment recorded: " + date + "," + time + "," + description + ", " + vendor + ", $" + amount);
 
-        }
+        // Create and add the payment transaction to the ledger
+        Transaction payment = new Transaction("Payment", date, time, description, vendor, amount);
+        ledger.addTransaction(payment);
+
+        System.out.println("Payment recorded: " + payment);
     }
-
+}
