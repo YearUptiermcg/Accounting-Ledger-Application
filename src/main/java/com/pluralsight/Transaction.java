@@ -1,16 +1,13 @@
 package com.pluralsight;
 
 public class Transaction {
-    private String type; // "Deposit" or "Payment"
     private String date;
     private String time;
     private String description;
     private String vendor;
     private double amount;
 
-    // Constructor
-    public Transaction(String type, String date, String time, String description, String vendor, double amount) {
-        this.type = type;
+    public Transaction(String date, String time, String description, String vendor, double amount) {
         this.date = date;
         this.time = time;
         this.description = description;
@@ -18,18 +15,33 @@ public class Transaction {
         this.amount = amount;
     }
 
-    // Method to convert Transaction to CSV format
+    // Method to convert transaction details to CSV format
     public String toCSV() {
         return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
     }
 
-    // Override toString for better display
     @Override
     public String toString() {
-        return type + " - " + date + " " + time + " | " + description + " | " + vendor + " | $" + amount;
+        return date + " " + time + " | " + description + " | " + vendor + " | " + amount;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getVendor() {
         return vendor;
+    }
+
+    public double getAmount() {
+        return amount;
     }
 }
