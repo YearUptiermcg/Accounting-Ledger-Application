@@ -123,7 +123,7 @@ public class Main {
                         break;
                     case 5:
                         System.out.print("Enter vendor name to search: ");
-                        scanner.nextLine(); // Consume leftover newline
+                        scanner.nextLine();
                         String vendor = scanner.nextLine();
                         displayTransactions(ledger.searchByVendor(vendor));
                         break;
