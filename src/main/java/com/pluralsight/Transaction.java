@@ -15,14 +15,13 @@ public class Transaction {
         this.amount = amount;
     }
 
-    // Method to convert transaction details to CSV format
     public String toCSV() {
-        return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
+        return date + "|" + time + "|" + description + "|" + vendor + "|" + String.format("%.2f", amount);
     }
 
     @Override
     public String toString() {
-        return date + " " + time + " | " + description + " | " + vendor + " | " + amount;
+        return date + " " + time + " | " + description + " | " + vendor + " | $" + String.format("%.2f", amount);
     }
 
     public String getDate() {

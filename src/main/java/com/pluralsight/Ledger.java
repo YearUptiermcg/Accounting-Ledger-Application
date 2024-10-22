@@ -14,7 +14,7 @@ public class Ledger {
     public Ledger(String csvFilePath) {
         this.csvFilePath = csvFilePath;
         this.transactions = new ArrayList<>();
-        loadTransactions(); // Load transactions from the CSV file on initialization
+        loadTransactions();
     }
 
     private void loadTransactions() {
